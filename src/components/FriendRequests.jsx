@@ -90,7 +90,7 @@ function FriendRequests() {
         open: true,
         message: "Friend added successfully!"
     });
-    setTimeout(()=>{navigate('../ChatApp/')},2000)
+    setTimeout(()=>{navigate('../')},2000)
   };
 
   const handleRemoveFriend = async (requestId) => {
@@ -118,7 +118,7 @@ function FriendRequests() {
             open: true,
             message: "Friend removed successfully!"
         });
-        setTimeout(()=>{navigate('../ChatApp/')},2000)
+        setTimeout(()=>{navigate('../')},2000)
       }
     } catch (error) {
       console.error("Error removing friend:", error);

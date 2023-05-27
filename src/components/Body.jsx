@@ -23,7 +23,7 @@ function Body() {
     }else{
       if(!hasVisitedBefore){
         setIsLoading(false);
-        navigate('../ChatApp/add-friends');
+        navigate('../add-friends');
         localStorage.setItem('visitedBefore',true);
       }else{
         setIsLoading(false);

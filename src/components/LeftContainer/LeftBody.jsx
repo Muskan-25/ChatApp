@@ -166,7 +166,7 @@ function LeftBody({ onFriendSelect }) {
                 <span
                   style={{ fontWeight: "600", cursor: "pointer" }}
                   onClick={() => {
-                    navigate("../ChatApp/add-friends");
+                    navigate("../add-friends");
                     setIsLoading(false);
                   }}
                 >

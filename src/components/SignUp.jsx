@@ -184,7 +184,7 @@ export default function SignUp() {
       });
       localStorage.setItem("uID", uId);
       setTimeout(function () {
-        navigate("../ChatApp/login");
+        navigate("../login");
       }, 2000);
     }
   };
@@ -268,7 +268,7 @@ export default function SignUp() {
                   Sign Up
                 </Button>
                 <Link
-                  to="../ChatApp/login"
+                  to="../login"
                   variant="body2"
                   style={{ color: "#333", textDecoration: "none"}}
                   className="loginSignupLink"

@@ -28,7 +28,7 @@ function LeftHeader(props) {
   const handleLogout = () => {
     localStorage.removeItem("uID");
     setTimeout(() => {
-      navigate("../ChatApp/login");
+      navigate("../login");
     }, 1000);
     setSnackbar({
       open: true,
@@ -63,7 +63,7 @@ function LeftHeader(props) {
       >
         <Typography sx={{fontWeight: "600",
           letterSpacing: "0.06em",
-          fontSize: "20px",cursor:'pointer'}} onClick={()=>{navigate('../ChatApp/')}}>
+          fontSize: "20px",cursor:'pointer'}} onClick={()=>{navigate('../')}}>
         Chatophobia
         </Typography>
         <Box sx={{ float: "right", display: "flex", gap: "20px" }}>
@@ -75,7 +75,7 @@ function LeftHeader(props) {
               cursor: "pointer",
             }}
             onClick={() => {
-              navigate("../ChatApp");
+              navigate("../");
             }}
           >
             {props.skipButton}
@@ -109,7 +109,7 @@ function LeftHeader(props) {
                   color: "#21666a !important",
                   justifyContent:'flex-start'
                 }}
-                onClick={()=>{navigate('../ChatApp/add-friends')}}
+                onClick={()=>{navigate('../add-friends')}}
               >
                 {" "}
                 Add Friends

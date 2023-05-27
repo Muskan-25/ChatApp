@@ -10,9 +10,9 @@ function App() {
   return (
   <div className='App'>
     <Routes>
-      <Route path="ChatApp/login" element={<Login/>}/>
-      <Route path="ChatApp/signup" element={<SignUp/>}/>
-      <Route path="/*" element={uId != null ? <Home/> : <Navigate replace to={"../ChatApp/login"}/> }/>
+      <Route path="login" element={<Login/>}/>
+      <Route path="signup" element={<SignUp/>}/>
+      <Route path="/*" element={uId != null ? <Home/> : <Navigate replace to={"login"}/> }/>
     </Routes>
   </div>
     

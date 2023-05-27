@@ -162,7 +162,7 @@ export default function Login() {
           message: 'Login successful!',
         });
         // navigate('/',{ replace: true });
-        setTimeout(function() {navigate('../ChatApp/')},2000);
+        setTimeout(function() {navigate('../')},2000);
       })
       
     }
@@ -237,7 +237,7 @@ export default function Login() {
                 </Link>
               </Grid> */}
               <Grid item>
-                <Link to="../ChatApp/signup" className='loginSignupLink' variant="body2" style={{color:'#333',textDecoration:'none'}}>
+                <Link to="../signup" className='loginSignupLink' variant="body2" style={{color:'#333',textDecoration:'none'}}>
                   Don't have an account?<span style={{fontWeight:'600', color:'#698B8D'}}> Sign Up</span> 
                 </Link>
               </Grid>

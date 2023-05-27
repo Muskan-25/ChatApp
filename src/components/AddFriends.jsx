@@ -89,7 +89,7 @@ function AddFriends() {
       message: "Friend request sent successfully.",
     });
     setTimeout(() => {
-      navigate("../ChatApp/");
+      navigate("../");
     }, 2000);
   };
 

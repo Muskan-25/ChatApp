@@ -69,7 +69,7 @@ function SignInWithGoogle() {
         docRef.docs.map((doc)=>{
             var data = doc.data();
             localStorage.setItem('uID', data.userId);
-            setTimeout(()=>{navigate('../ChatApp/')},2000);
+            setTimeout(()=>{navigate('../')},2000);
             setSnackbar({
                 open: true,
                 message: "Login successful!"
@@ -88,7 +88,7 @@ function SignInWithGoogle() {
         });
         localStorage.setItem("uID", uId);
         setTimeout(function () {
-          navigate("../ChatApp/");
+          navigate("../");
         }, 2000);
         setSnackbar({
             open: true,
