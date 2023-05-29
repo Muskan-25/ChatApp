@@ -28,6 +28,9 @@ const theme = createTheme({
           border: "0px",
           color: "#333",
         },
+        root:{
+          padding:'0px !important',
+        }
       },
     },
   },
@@ -150,7 +153,9 @@ function Chat({ selectedFriend }) {
           width:
             (friends && { md: "65%", xs: "100%" }) ||
             (selectedFriend && { md: "65%", xs: "100%" }),
-          display: friends ? {md:"flex", xs:'flex'} : { md: "none", xs: "none" },
+          display: friends
+            ? { md: "flex", xs: "flex" }
+            : { md: "none", xs: "none" },
           flexDirection: "column",
         }}
         className="chats"
@@ -160,7 +165,7 @@ function Chat({ selectedFriend }) {
             <Box
               sx={{
                 background: "#fbe8e9",
-                padding: { md: "10px 30px", xs: "10px" },
+                padding: { md: "10px 20px", xs: "10px" },
                 borderTopRightRadius: { md: "8px", xs: "0" },
                 color: "#333",
                 position: "sticky",
@@ -198,7 +203,7 @@ function Chat({ selectedFriend }) {
             <Box
               sx={{
                 background: "#bee0e275",
-                padding: "10px 30px",
+                padding: { md: "10px 20px", xs: "10px" },
                 color: "#333",
                 flexGrow: 1,
                 overflowY: "auto",
@@ -215,13 +220,14 @@ function Chat({ selectedFriend }) {
                     key={index}
                     sx={{
                       textAlign: "left",
-                      marginBottom: "4px",
+                      marginBottom: "8px",
                       display: "flex",
                       flexDirection:
                         message.senderId === uID ? "row-reverse" : "row",
                       alignItems: "center",
-                      marginLeft: message.senderId === uID ? "52%" : "0",
-                      marginRight: message.senderId === uID ? "0" : "52%",
+                      marginLeft: message.senderId === uID ? "22%" : "0",
+                      marginRight: message.senderId === uID ? "0" : "22%",
+                      placeItems: "flex-start",
                     }}
                   >
                     {showProfilePicture ? (
@@ -229,6 +235,7 @@ function Chat({ selectedFriend }) {
                         sx={{
                           marginLeft: "5px",
                           marginRight: "5px",
+                          padding: "2px 0",
                         }}
                       >
                         {user && (
@@ -246,7 +253,7 @@ function Chat({ selectedFriend }) {
                         sx={{
                           marginLeft: "5px",
                           marginRight: "5px",
-                          width: "20px",
+                          padding:'0px 10px'
                         }}
                       ></Box>
                     )}
@@ -254,12 +261,12 @@ function Chat({ selectedFriend }) {
                       sx={{
                         backgroundColor:
                           message.senderId === uID ? "#fff" : "#bee0e275",
-                        padding: "0px 5px",
-                        flexGrow: "auto",
+                        padding: "2px 8px",
+                        borderRadius: "3px",
                       }}
                     >
                       <Typography sx={{ wordWrap: "break-word" }}>
-                        {message.text}
+                        <pre style={{wordWrap:'break-word', whiteSpace:'pre-wrap', fontFamily:'inherit', margin:'0'}}>{message.text}</pre>
                       </Typography>
                     </Box>
                   </Box>
@@ -289,10 +296,12 @@ function Chat({ selectedFriend }) {
                     autoFocus
                     value={message}
                     onChange={handleChange}
+                    multiline
                     sx={{
                       margin: "0px !important",
                       fontSize: "16px",
                       border: "0",
+                      padding:'0'
                     }}
                   />
                 </ThemeProvider>
