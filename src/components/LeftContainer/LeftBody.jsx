@@ -13,11 +13,15 @@ import {
 } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import FriendContext from "../../FriendContext";
+import CallMadeIcon from "@mui/icons-material/CallMade";
+import CallReceivedIcon from "@mui/icons-material/CallReceived";
 
 function LeftBody({ onFriendSelect }) {
   const [users, setUsers] = React.useState([]);
   //   const selectedFriend = React.useContext(FriendContext);
   const [isLoading, setIsLoading] = React.useState(true);
+  const [recentMessage, setRecentMessage] = React.useState([]);
+  const [messageSent, setMessageSent] = React.useState(true);
   const uID = localStorage.getItem("uID");
   const navigate = useNavigate();
 
@@ -40,29 +44,54 @@ function LeftBody({ onFriendSelect }) {
           friendsData.push(...friends);
         }
         setUsers(friendsData);
+        const recentMessagesOfFriends = friendsData.map(() => "");
+        friendsData.forEach(async (friend, index) => {
+          //display recent message
+          var chatDocRef = await getDoc(doc(db, "chats", friend.chatId));
+          var msgs = chatDocRef.data().messages;
+          if (msgs.length === 0) {
+            recentMessagesOfFriends[index] = "";
+            setRecentMessage(recentMessagesOfFriends);
+          } else {
+            var messagesLength = msgs.length - 1;
+            var recentmsg = msgs[messagesLength];
+            recentMessagesOfFriends[index] = {
+              text: recentmsg.text,
+              senderId: recentmsg.senderId,
+            };
+            // if(recentmsg.senderId == uID){
+            //   setMessageSent(true);
+            // }else if(recentmsg.senderId != uID){
+            //   setMessageSent(false);
+            // }
+            setRecentMessage(recentMessagesOfFriends);
+          }
+        });
+
         setIsLoading(false);
       } else {
+        setRecentMessage([]);
         setUsers([]);
         setIsLoading(false);
       }
     }
     getUsers();
-  }, []);
+  }, [recentMessage]);
 
   const handleClick = async (userId) => {
     onFriendSelect(userId);
     const participants = [uID, userId];
     participants.sort(); // Sort the user IDs alphabetically
-    
+
     const chatId = participants.join("-"); // Generate the chat ID
 
-    const userDoc= await getDoc(doc(db,'users',uID));
-    await updateDoc(userDoc.ref,{
-      chatId: chatId
+    const userDoc = await getDoc(doc(db, "users", uID));
+    await updateDoc(userDoc.ref, {
+      chatId: chatId,
     });
-    const friendDoc= await getDoc(doc(db,'users',userId));
-    await updateDoc(friendDoc.ref,{
-      chatId: chatId
+    const friendDoc = await getDoc(doc(db, "users", userId));
+    await updateDoc(friendDoc.ref, {
+      chatId: chatId,
     });
 
     // const chatID = userDoc.data().chatId;
@@ -74,16 +103,15 @@ function LeftBody({ onFriendSelect }) {
     } else {
       timestamp = Date.now();
       await setDoc(doc(db, "chats", chatId), {
-          participants: participants,
-          timestamp,
-          messages:[]
-        });
+        participants: participants,
+        timestamp,
+        messages: [],
+      });
     }
     // document.querySelectorAll('.chats').style.display='flex';
     onFriendSelect(userId);
 
     // document.querySelectorAll('.contacts').style.display='none';
-    
   };
 
   return isLoading ? (
@@ -100,50 +128,72 @@ function LeftBody({ onFriendSelect }) {
   ) : (
     <>
       {users.length > 0 ? (
-        <Box sx={{overflowY:'auto'}}>
-        {users.map((user, index) => {
-          // selectedFriend= user.userId;
-          return (
-            <Box
-              sx={{
-                flexGrow: "0",
-                display: "grid",
-                gridTemplateRows: "1fr",
-              }}
-              key={index}
-            >
+        <Box sx={{ overflowY: "auto" }}>
+          {users.map((user, index) => {
+            // selectedFriend= user.userId;
+            return (
               <Box
                 sx={{
+                  flexGrow: "0",
                   display: "grid",
-                  gridTemplateColumns: "1fr",
-                  padding: "10px 20px",
-                  
+                  gridTemplateRows: "1fr",
                 }}
+                key={index}
               >
-                <Box sx={{ gridColumn: "-3", marginRight: "10px" }}>
-                  <img
-                    src={user.dp}
-                    alt=""
-                    style={{
-                      width: "30px",
-                      height: "30px",
-                      borderRadius: "50px",
-                    }}
-                  />
-                </Box>
-                <Box sx={{ gridTemplateColumns: "1fr" }}>
-                  <Typography
-                    sx={{ textTransform: "capitalize", cursor: "pointer" }}
+                <Box
+                  sx={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr",
+                    padding: "10px 20px",
+                  }}
+                >
+                  <Box sx={{ gridColumn: "-3", marginRight: "10px" }}>
+                    <img
+                      src={user.dp}
+                      alt=""
+                      style={{
+                        width: "30px",
+                        height: "30px",
+                        borderRadius: "50px",
+                      }}
+                    />
+                  </Box>
+                  <Box
+                    sx={{ gridTemplateColumns: "1fr" }}
                     onClick={() => handleClick(user.userId)}
                   >
-                    {user.name}
-                  </Typography>
+                    <Typography
+                      sx={{ textTransform: "capitalize", cursor: "pointer" }}
+                    >
+                      {user.name}
+                    </Typography>
+
+                    <Typography
+                      sx={{
+                        textTransform: "capitalize",
+                        cursor: "pointer",
+                        color: "#676767",
+                        height: "21px",
+                        overflow: "hidden",
+                      }}
+                    >
+                      {recentMessage ? (
+                        recentMessage[index].senderId===uID ? (
+                          <CallMadeIcon style={{ fontSize: "15px" }} />
+                        ) : (
+                          <CallReceivedIcon style={{ fontSize: "15px" }} />
+                        )
+                      ) : (
+                        ""
+                      )}
+                      {recentMessage ? recentMessage[index].text : ""}
+                    </Typography>
+                  </Box>
                 </Box>
+                <Divider />
               </Box>
-              <Divider />
-            </Box>
-          );
-        })}
+            );
+          })}
         </Box>
       ) : (
         <Box
