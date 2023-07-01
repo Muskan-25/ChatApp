@@ -177,7 +177,7 @@ function LeftBody({ onFriendSelect }) {
                         overflow: "hidden",
                       }}
                     >
-                      {recentMessage ? (
+                      {recentMessage[index] ? (
                         recentMessage[index].senderId===uID ? (
                           <CallMadeIcon style={{ fontSize: "15px" }} />
                         ) : (
@@ -186,7 +186,7 @@ function LeftBody({ onFriendSelect }) {
                       ) : (
                         ""
                       )}
-                      {recentMessage ? recentMessage[index].text : ""}
+                      {recentMessage[index] ? recentMessage[index].text : ""}
                     </Typography>
                   </Box>
                 </Box>
